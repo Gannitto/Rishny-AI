@@ -1,51 +1,59 @@
 ﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Ришный ИИ</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<title>Ришный ИИ</title>
+	<script defer src="https://pyscript.net/latest/pyscript.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="background">
-        <div class="moving-images">
-            <!-- Добавьте свои изображения здесь -->
-            <img src="Background pictures/1.jpg" alt="Image 1">
-            <img src="Background pictures/2.jpg" alt="Image 2">
-            <img src="Background pictures/3.jpg" alt="Image 3">
-            <img src="Background pictures/4.jpg" alt="Image 4">
-            <img src="Background pictures/5.jpg" alt="Image 5">
-            <img src="Background pictures/6.jpg" alt="Image 6">
-            <img src="Background pictures/7.jpg" alt="Image 7">
-            <img src="Background pictures/8.jpg" alt="Image 8">
-            <img src="Background pictures/9.jpg" alt="Image 9">
-            <img src="Background pictures/10.jpg" alt="Image 10">
-            <!-- Дублируем изображения для бесшовной анимации -->
-            <img src="Background pictures/1.jpg" alt="Image 1">
-            <img src="Background pictures/2.jpg" alt="Image 2">
-            <img src="Background pictures/3.jpg" alt="Image 3">
-            <img src="Background pictures/4.jpg" alt="Image 4">
-            <img src="Background pictures/5.jpg" alt="Image 5">
-            <img src="Background pictures/6.jpg" alt="Image 6">
-            <img src="Background pictures/7.jpg" alt="Image 7">
-            <img src="Background pictures/8.jpg" alt="Image 8">
-            <img src="Background pictures/9.jpg" alt="Image 9">
-            <img src="Background pictures/10.jpg" alt="Image 10">
-        </div>
-    </div>
+	<div class="background">
+		<div class="moving-images">
+			<!-- Добавьте свои изображения здесь -->
+			<img src="Background pictures/1.jpg" alt="Image 1">
+			<img src="Background pictures/2.jpg" alt="Image 2">
+			<img src="Background pictures/3.jpg" alt="Image 3">
+			<img src="Background pictures/4.jpg" alt="Image 4">
+			<img src="Background pictures/5.jpg" alt="Image 5">
+			<img src="Background pictures/6.jpg" alt="Image 6">
+			<img src="Background pictures/7.jpg" alt="Image 7">
+			<img src="Background pictures/8.jpg" alt="Image 8">
+			<img src="Background pictures/9.jpg" alt="Image 9">
+			<img src="Background pictures/10.jpg" alt="Image 10">
+			<!-- Дублируем изображения для бесшовной анимации -->
+			<img src="Background pictures/1.jpg" alt="Image 1">
+			<img src="Background pictures/2.jpg" alt="Image 2">
+			<img src="Background pictures/3.jpg" alt="Image 3">
+			<img src="Background pictures/4.jpg" alt="Image 4">
+			<img src="Background pictures/5.jpg" alt="Image 5">
+			<img src="Background pictures/6.jpg" alt="Image 6">
+			<img src="Background pictures/7.jpg" alt="Image 7">
+			<img src="Background pictures/8.jpg" alt="Image 8">
+			<img src="Background pictures/9.jpg" alt="Image 9">
+			<img src="Background pictures/10.jpg" alt="Image 10">
+		</div>
+	</div>
 
-    <div class="text-container">
+	<div class="text-container">
 
-        <h1>Ришный ИИ</h1>
-        <p>Введите начало текста, и нейросеть продолжит его в стиле "Ришный мцэцъ":</p>
+		<h1>Ришный ИИ</h1>
+		<div id="Start page">
+			<p id="loading text">Модель ещё загружается, подождите немного...</p>
+			<button id="next button" class="button" onclick="Show_AI_menu()">Продолжить</button>
+		</div>
+		<div id="AI menu">
+			<p>Введите начало текста, и нейросеть продолжит его в стиле "Ришный мцэць":</p>
 
-        <textarea id="inputText" rows="3"></textarea>
-        <button id="generateBtn">Сгенерировать текст</button>
+			<textarea id="inputText" rows="3" required></textarea>
+			<p>Количество слов после вашего текста</p>
+			<input type="number" min="1" max="1000" step="1" value="30" required id="num tokens">
+			<button id="generateBtn" class="button">Сгенерировать текст</button>
+			<div id="output"></div>
+		</div>
+	</div>
 
-    </div>
-
-    <div id="output"></div>
-    <script src="script.js"></script>
+	<script src="script.js"></script>
 
 </body>
 </html>
