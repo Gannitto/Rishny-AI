@@ -1,9 +1,9 @@
 {
     "format": "layers-model",
-    "generatedBy": "keras v3.10.0",
+    "generatedBy": "keras v3.8.0",
     "convertedBy": "TensorFlow.js Converter v4.22.0",
     "modelTopology": {
-        "keras_version": "3.10.0",
+        "keras_version": "3.8.0",
         "backend": "tensorflow",
         "model_config": {
             "class_name": "Sequential",
@@ -20,8 +20,9 @@
                     {
                         "class_name": "InputLayer",
                         "config": {
-                            "batchInputShape": [ null, 152 ],
+                            "batch_shape": [ null, 152 ],
                             "dtype": "float32",
+                            "sparse": false,
                             "name": "input_layer"
                         }
                     },
