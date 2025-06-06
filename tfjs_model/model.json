@@ -197,7 +197,7 @@
                         }
                     }
                 ],
-                "build_input_shape": [ null, 152 ]
+                "input_shape": [ null, 152 ]
             }
         },
         "training_config": {
