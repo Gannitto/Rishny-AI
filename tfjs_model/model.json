@@ -20,7 +20,7 @@
                     {
                         "class_name": "InputLayer",
                         "config": {
-                            "batchInputShape": [ null, 152 ],
+                            "inputShape": [ null, 152 ],
                             "dtype": "float32",
                             "sparse": false,
                             "ragged": false,
