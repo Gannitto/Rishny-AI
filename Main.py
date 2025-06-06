@@ -73,7 +73,8 @@ else:
 	except:
 		print("Модель не найдена. Обучаем с нуля...")
 		# Здесь код обучения из предыдущего примера
-
+for layer in model.layers:
+    print(layer.name, layer.weights[0].name if layer.weights else "No weights")
 # Генерация текста
 def generate_text(seed_text, next_words=50):
 	for _ in range(next_words):
