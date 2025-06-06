@@ -75,8 +75,7 @@ else:
 		# Здесь код обучения из предыдущего примера
 # import tensorflowjs as tfjs
 # tfjs.converters.save_keras_model(model, "tfjs_model")
-import tf2onnx
-model_proto, _ = tf2onnx.convert.from_keras(model, output_path="model.onnx")
+
 # Генерация текста
 def generate_text(seed_text, next_words=50):
 	for _ in range(next_words):

@@ -4,6 +4,8 @@ const maxLen = 20; // Должно совпадать с max_sequence_len из обучения
 // Загрузка модели
 async function loadModel() {
 	const model = await tf.loadLayersModel('tfjs_model/model.json');
+	const inputShape = [null, 152];
+	model.layers[0].batchInputShape = inputShape;
 	console.log("Модель загружена!");
 	document.getElementById("next button").style.display = "block";
 	document.getElementById("loading text").style.text = "Модель загружена"
