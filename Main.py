@@ -73,8 +73,6 @@ else:
 	except:
 		print("Модель не найдена. Обучаем с нуля...")
 		# Здесь код обучения из предыдущего примера
-# import tensorflowjs as tfjs
-# tfjs.converters.save_keras_model(model, "tfjs_model")
 
 # Генерация текста
 def generate_text(seed_text, next_words=50):
