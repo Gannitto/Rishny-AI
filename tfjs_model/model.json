@@ -180,7 +180,7 @@
                             "use_bias": true,
                             "kernel_initializer": {
                                 "module": "keras.initializers",
-                                "class_name": "GlorotUniform",
+                                "class_name": "kernel",
                                 "config": { "seed": null },
                                 "registered_name": null
                             },
