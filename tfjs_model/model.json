@@ -180,7 +180,7 @@
                             "use_bias": true,
                             "kernel_initializer": {
                                 "module": "keras.initializers",
-                                "class_name": "kernel",
+                                "class_name": "GlorotUniform",
                                 "config": { "seed": null },
                                 "registered_name": null
                             },
@@ -234,11 +234,6 @@
         {
             "paths": [ "group1-shard1of2.bin", "group1-shard2of2.bin" ],
             "weights": [
-                {
-                    "name": "sequential/dense/kernel",
-                    "shape": [ 100, 7511 ],
-                    "dtype": "float32"
-                },
                 {
                     "name": "sequential/dense/bias",
                     "shape": [ 7511 ],
