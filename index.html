@@ -41,15 +41,22 @@
 			<p id="loading text">Модель ещё загружается, подождите немного...</p>
 			<button id="next button" class="button" onclick="Show_AI_menu()">Продолжить</button>
 		</div>
+
+		<div id="image-container">
+			<img src="детей.jpg" id="fullscreen-image">
+		</div>
+
 		<div id="AI menu">
 			<p>Введите начало текста, и нейросеть продолжит его в стиле "Ришный мцэць":</p>
 
 			<textarea id="inputText" rows="3" required></textarea>
+			<input type="checkbox" id="detei mode"> Детский режим
 			<p>Количество слов после вашего текста</p>
 			<input type="number" min="1" max="1000" step="1" value="30" required id="num tokens">
 			<button id="generateBtn" class="button">Сгенерировать текст</button>
 			<div id="output"></div>
 		</div>
+
 	</div>
 
 	<script src="script.js"></script>
