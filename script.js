@@ -1,5 +1,5 @@
 let model;
-const maxLen = 20; // Должно совпадать с max_sequence_len из обучения
+const maxLen = 152; // Должно совпадать с max_sequence_len из обучения
 
 // Загрузка модели
 async function loadModel() {
