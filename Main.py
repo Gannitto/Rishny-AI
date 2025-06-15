@@ -73,9 +73,7 @@ else:
 		print("Модель загружена!")
 	except:
 		print("Модель не найдена. Обучаем с нуля...")
-		# Здесь код обучения из предыдущего примера
-model.layers[0] = InputLayer(shape=(152,), name='input_layer')
-model.save('rishny_model.h5')
+
 # Генерация текста
 def generate_text(seed_text, next_words=50):
 	for _ in range(next_words):
