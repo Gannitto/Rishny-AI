@@ -64,8 +64,9 @@
 
 	<script src="script.js"></script>
 
-	<py-script>
+	<py-script config="pyscript.json">
 
+		import tensorflow
 		from tensorflow.keras.models import load_model
 		import pickle
 		from js import document
