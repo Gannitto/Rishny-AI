@@ -100,7 +100,7 @@ function tokenizeText(text) {
 // document.getElementById('generateBtn').addEventListener('click', generateText);
 
 // Скрытие окна ИИ
-document.getElementById("AI menu").style.display = "none";
+document.getElementById("Start page").style.display = "none";
 document.getElementById("next button").style.display = "none";
 
 async function Show_AI_menu() {
