@@ -30,6 +30,7 @@ async function sendRequest() {
 	});
 
 	const result = await response.json();
+	document.getElementById('output').innerText = result["result"]
 	console.log(result);
 }
 
