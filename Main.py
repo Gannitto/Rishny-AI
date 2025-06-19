@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import tensorflow as tf
 import numpy as np
+from ai_model import load_rishny_ai, generate_text
 
 app = FastAPI()
+load_rishny_ai()
 
 # Разрешить CORS (для запросов из браузера)
 app.add_middleware(
@@ -12,13 +13,12 @@ app.add_middleware(
 	allow_methods=["POST"],
 )
 
-model = tf.keras.models.load_model("your_model.h5")
-
 @app.post("/predict")
 async def predict(data: dict):
 	try:
-		input_tensor = np.array(data["data"], dtype=np.float32).reshape(1, 224, 224, 3)
-		predictions = model.predict(input_tensor)
-		return {"predictions": predictions.tolist()}
+		input_text = data["text"]
+		next_words = data["next_words"]
+		result = generate_text(input_text, next_words)
+		return {"result": result}
 	except Exception as e:
 		return {"error": str(e)}

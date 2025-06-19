@@ -4,7 +4,6 @@ from tensorflow.keras.models import Sequential, save_model, load_model
 from tensorflow.keras.layers import LSTM, Dense, Embedding
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.layers import InputLayer
 from re import sub
 
 new_model = False   # Создавать ли новую модель

@@ -1,5 +1,5 @@
-fastapi==0.103.1
-uvicorn==0.23.2
-tensorflow==2.13.0
+fastapi==0.115.113
+uvicorn==0.34.3
+tensorflow==2.19.0
 python-multipart==0.0.6
-numpy==1.24.3
+numpy==2.1.3

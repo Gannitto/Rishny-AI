@@ -21,7 +21,7 @@ checkbox.addEventListener('change', function () {
 });
 
 async function sendRequest() {
-	const data = { data: [document.getElementById("inputText").value, document.getElementById("nextWords").value] };  // Ваши входные данные (например, массив пикселей)
+	const data = { text: document.getElementById("inputText").value, next_words: document.getElementById("nextWords").value };
 
 	const response = await fetch("http://localhost:5000/predict", {
 		method: "POST",
