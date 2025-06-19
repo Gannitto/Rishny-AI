@@ -99,9 +99,8 @@ function tokenizeText(text) {
 // loadModel();
 // document.getElementById('generateBtn').addEventListener('click', generateText);
 
-// Скрытие окна ИИ
 document.getElementById("Start page").style.display = "none";
-document.getElementById("next button").style.display = "none";
+// document.getElementById("next button").style.display = "none";
 
 async function Show_AI_menu() {
 	document.getElementById("AI menu").style.display = "block";
