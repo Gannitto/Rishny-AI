@@ -20,8 +20,22 @@ checkbox.addEventListener('change', function () {
 	}
 });
 
-let model;
-const maxLen = 152; // Должно совпадать с max_sequence_len из обучения
+async function sendRequest() {
+	const data = { data: [document.getElementById("inputText").value, document.getElementById("nextWords").value] };  // Ваши входные данные (например, массив пикселей)
+
+	const response = await fetch("http://localhost:5000/predict", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(data)
+	});
+
+	const result = await response.json();
+	console.log(result);
+}
+
+
+//let model;
+// const maxLen = 152; // Должно совпадать с max_sequence_len из обучения
 
 // Загрузка модели
 //async function loadModel() {
