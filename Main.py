@@ -1,10 +1,14 @@
+print(1)
 from fastapi import FastAPI
+print(2)
 import numpy as np
+print(3)
 import onnxruntime as ort
+print(4)
 from pydantic import BaseModel
-
+print(5)
 app = FastAPI()
-
+print(6)
 # Загружаем ONNX-модель и токенизатор (если есть)
 session = ort.InferenceSession("model.onnx")  # Путь к ONNX-файлу
 
