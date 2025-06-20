@@ -5,21 +5,21 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# Загружаем ONNX-модель и токенизатор (если есть)
-session = ort.InferenceSession("model.onnx")  # Путь к ONNX-файлу
+# Р—Р°РіСЂСѓР¶Р°РµРј ONNX-РјРѕРґРµР»СЊ Рё С‚РѕРєРµРЅРёР·Р°С‚РѕСЂ (РµСЃР»Рё РµСЃС‚СЊ)
+session = ort.InferenceSession("model.onnx")  # РџСѓС‚СЊ Рє ONNX-С„Р°Р№Р»Сѓ
 
-# Класс для входных данных API
+# РљР»Р°СЃСЃ РґР»СЏ РІС…РѕРґРЅС‹С… РґР°РЅРЅС‹С… API
 class TextRequest(BaseModel):
 	text: str
-	max_length: int = 50  # Максимальная длина генерируемого текста
+	max_length: int = 50  # РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° РіРµРЅРµСЂРёСЂСѓРµРјРѕРіРѕ С‚РµРєСЃС‚Р°
 
 @app.post("/generate")
 async def generate_text(request: TextRequest):
 	try:
-		# 1. Токенизация входного текста (адаптируйте под вашу модель!)
-		input_ids = tokenize_text(request.text)  # Ваша функция предобработки
+		# 1. РўРѕРєРµРЅРёР·Р°С†РёСЏ РІС…РѕРґРЅРѕРіРѕ С‚РµРєСЃС‚Р° (Р°РґР°РїС‚РёСЂСѓР№С‚Рµ РїРѕРґ РІР°С€Сѓ РјРѕРґРµР»СЊ!)
+		input_ids = tokenize_text(request.text)  # Р’Р°С€Р° С„СѓРЅРєС†РёСЏ РїСЂРµРґРѕР±СЂР°Р±РѕС‚РєРё
 		
-		# 2. Генерация текста
+		# 2. Р“РµРЅРµСЂР°С†РёСЏ С‚РµРєСЃС‚Р°
 		generated_text = generate(
 			session,
 			input_ids,
@@ -31,38 +31,38 @@ async def generate_text(request: TextRequest):
 	except Exception as e:
 		return {"error": str(e)}
 
-# --- Вспомогательные функции ---
+# --- Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё ---
 
 def tokenize_text(text: str) -> np.ndarray:
-	"""Преобразует текст в вектор (пример для моделей типа LSTM/Transformer)."""
-	# Пример: если модель ожидает вход shape=(1, seq_len)
-	# Замените на ваш токенизатор!
-	return np.array([[1, 2, 3]], dtype=np.int64)  # Заглушка
+	"""РџСЂРµРѕР±СЂР°Р·СѓРµС‚ С‚РµРєСЃС‚ РІ РІРµРєС‚РѕСЂ (РїСЂРёРјРµСЂ РґР»СЏ РјРѕРґРµР»РµР№ С‚РёРїР° LSTM/Transformer)."""
+	# РџСЂРёРјРµСЂ: РµСЃР»Рё РјРѕРґРµР»СЊ РѕР¶РёРґР°РµС‚ РІС…РѕРґ shape=(1, seq_len)
+	# Р—Р°РјРµРЅРёС‚Рµ РЅР° РІР°С€ С‚РѕРєРµРЅРёР·Р°С‚РѕСЂ!
+	return np.array([[1, 2, 3]], dtype=np.int64)  # Р—Р°РіР»СѓС€РєР°
 
 def generate(session: ort.InferenceSession, input_ids: np.ndarray, max_length: int) -> str:
-	"""Генерирует текст с помощью ONNX-модели."""
+	"""Р“РµРЅРµСЂРёСЂСѓРµС‚ С‚РµРєСЃС‚ СЃ РїРѕРјРѕС‰СЊСЋ ONNX-РјРѕРґРµР»Рё."""
 	generated = []
 	for _ in range(max_length):
-		# Предсказание следующего токена
+		# РџСЂРµРґСЃРєР°Р·Р°РЅРёРµ СЃР»РµРґСѓСЋС‰РµРіРѕ С‚РѕРєРµРЅР°
 		outputs = session.run(
 			None,
-			{"input": input_ids}  # Имя входного слоя (см. через Netron)
+			{"input": input_ids}  # РРјСЏ РІС…РѕРґРЅРѕРіРѕ СЃР»РѕСЏ (СЃРј. С‡РµСЂРµР· Netron)
 		)
-		next_token = np.argmax(outputs[0][0, -1])  # Пример для классических моделей
+		next_token = np.argmax(outputs[0][0, -1])  # РџСЂРёРјРµСЂ РґР»СЏ РєР»Р°СЃСЃРёС‡РµСЃРєРёС… РјРѕРґРµР»РµР№
 		
-		# Обновляем вход для следующего шага
+		# РћР±РЅРѕРІР»СЏРµРј РІС…РѕРґ РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ С€Р°РіР°
 		input_ids = np.concatenate(
 			[input_ids, np.array([[next_token]], dtype=np.int64)],
 			axis=1
 		)
 		generated.append(next_token)
 		
-		# Остановка по спецтокену (например, конец текста)
-		if next_token == 2:  # Пример для токена </s>
+		# РћСЃС‚Р°РЅРѕРІРєР° РїРѕ СЃРїРµС†С‚РѕРєРµРЅСѓ (РЅР°РїСЂРёРјРµСЂ, РєРѕРЅРµС† С‚РµРєСЃС‚Р°)
+		if next_token == 2:  # РџСЂРёРјРµСЂ РґР»СЏ С‚РѕРєРµРЅР° </s>
 			break
 	
-	# Детокенизация (замените на вашу логику!)
-	return " ".join(map(str, generated))  # Заглушка
+	# Р”РµС‚РѕРєРµРЅРёР·Р°С†РёСЏ (Р·Р°РјРµРЅРёС‚Рµ РЅР° РІР°С€Сѓ Р»РѕРіРёРєСѓ!)
+	return " ".join(map(str, generated))  # Р—Р°РіР»СѓС€РєР°
 
 if __name__ == "__main__":
 	import uvicorn
