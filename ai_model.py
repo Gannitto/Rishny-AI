@@ -8,6 +8,15 @@ from re import sub
 
 new_model = False   # Создавать ли новую модель
 
+def load_rishny_ai():
+	model = load_model("rishny_model.h5")  # Загружаем модель
+	with open("tokenizer.pickle", "rb") as f:
+		tokenizer = pickle.load(f)  # Загружаем токенизатор
+	with open("config.pickle", "rb") as f:
+		config = pickle.load(f)  # Загружаем настройки
+
+	return model, tokenizer, config["max_sequence_len"]
+
 if new_model:
 
 	# Загрузка данных
@@ -57,21 +66,8 @@ if new_model:
 
 else:
 
-	def load_rishny_ai():
-		model = load_model("rishny_model.h5")  # Загружаем модель
-		with open("tokenizer.pickle", "rb") as f:
-			tokenizer = pickle.load(f)  # Загружаем токенизатор
-		with open("config.pickle", "rb") as f:
-			config = pickle.load(f)  # Загружаем настройки
-	
-		return model, tokenizer, config["max_sequence_len"]
-
-	# Проверяем, есть ли сохранённая модель
-	try:
-		model, tokenizer, max_sequence_len = load_rishny_ai()
-		print("Модель загружена!")
-	except:
-		print("Модель не найдена. Обучаем с нуля...")
+	model, tokenizer, max_sequence_len = load_rishny_ai()
+	print("Модель загружена!")
 
 # Генерация текста
 def generate_text(seed_text, next_words=50):
@@ -110,5 +106,5 @@ def generate_text(seed_text, next_words=50):
 	
 	return corrected_text
 
-while True:
-	print(generate_text(input("Введите фразу: ")))
+# while True:
+# 	print(generate_text(input("Введите фразу: ")))

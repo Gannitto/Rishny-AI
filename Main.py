@@ -6,7 +6,6 @@ from ai_model import load_rishny_ai, generate_text
 app = FastAPI()
 load_rishny_ai()
 
-# Разрешить CORS (для запросов из браузера)
 app.add_middleware(
 	CORSMiddleware,
 	allow_origins=["*"],
