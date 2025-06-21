@@ -8,8 +8,7 @@ app = FastAPI()
 logger = logging.getLogger(__name__)
 logger.info("Запуск..")
 try:
-	# Загружаем ONNX-модель и токенизатор (если есть)
-	session = ort.InferenceSession("model.onnx")  # Путь к ONNX-файлу
+	session = ort.InferenceSession("model.onnx")
 
 	# Класс для входных данных API
 	class TextRequest(BaseModel):
@@ -70,9 +69,6 @@ try:
 	if __name__ == "__main__":
 		import uvicorn
 
-		@app.get("/")
-		def home():
-			return "Сервер работает!"
 		uvicorn.run(app, host="0.0.0.0", port=8000)
 
 except Exception as e:

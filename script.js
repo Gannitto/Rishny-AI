@@ -23,7 +23,7 @@ checkbox.addEventListener('change', function () {
 async function sendRequest() {
 	const data = { text: document.getElementById("inputText").value, next_words: document.getElementById("nextWords").value };
 
-	const response = await fetch("http://localhost:8000/predict", {
+	const response = await fetch("https://rishny-ai.onrender.com/", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(data)
