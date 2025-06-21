@@ -31,8 +31,8 @@ try:
 	@app.post("/generate")
 	async def generate_text(request: TextRequest):
 		try:
-			# 1. Токенизация входного текста (адаптируйте под вашу модель!)
-			input_ids = tokenize_text(request.text)  # Ваша функция предобработки
+			input_ids = tokenize_text(request.text)
+			input_ids = input_ids.astype(np.float32)
 		
 			# 2. Генерация текста
 			generated_text = generate(
