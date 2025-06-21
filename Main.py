@@ -3,12 +3,21 @@ import numpy as np
 import onnxruntime as ort
 from pydantic import BaseModel
 import logging
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 logger = logging.getLogger(__name__)
 logger.info("Запуск..")
 try:
 	session = ort.InferenceSession("model.onnx")
+
+	app = FastAPI()
+
+	app.add_middleware(
+		CORSMiddleware,
+		allow_origins=["*"],
+		allow_methods=["POST"],
+	)
 
 	# Класс для входных данных API
 	class TextRequest(BaseModel):
