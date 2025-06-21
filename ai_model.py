@@ -107,5 +107,5 @@ def generate_text(seed_text, next_words=50):
 	
 	return corrected_text
 
-# while True:
-# 	print(generate_text(input("Введите фразу: ")))
+while True:
+	print(generate_text(input("Введите фразу: ")))
