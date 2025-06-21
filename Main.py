@@ -13,10 +13,14 @@ try:
 
 	app = FastAPI()
 
+	# Настройка CORS
 	app.add_middleware(
 		CORSMiddleware,
-		allow_origins=["*"],
-		allow_methods=["POST"],
+		allow_origins=["https://gannitto.github.io"],  # Только ваш фронтенд
+	    allow_methods=["POST", "OPTIONS"],  # Разрешенные методы
+		allow_headers=["Content-Type"],  # Разрешенные заголовки
+	    expose_headers=["*"],  # Дополнительные заголовки для клиента
+		max_age=600  # Время кеширования настроек CORS (в секундах)
 	)
 
 	# Класс для входных данных API
