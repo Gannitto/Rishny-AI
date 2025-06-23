@@ -18,8 +18,9 @@ try:
 	app.add_middleware(
 		CORSMiddleware,
 		allow_origins=["https://gannitto.github.io"],
-		allow_methods=["POST", "OPTIONS"],
-		allow_headers=["Content-Type"]
+		allow_credentials=True,
+		allow_methods=["*"],
+		allow_headers=["*"]
 	)
 
 	# Класс для входных данных API
