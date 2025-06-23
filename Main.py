@@ -8,26 +8,25 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Загрузка токенизатора
 with open('tokenizer.pickle', 'rb') as handle:
-    tokenizer = pickle.load(handle)
+	tokenizer = pickle.load(handle)
 
 app = FastAPI()
 logger = logging.getLogger(__name__)
 logger.info("Запуск..")
+session = ort.InferenceSession("model.onnx")
 
+pp = FastAPI()
+
+# Настройка CORS
+app.add_middleware(
+	CORSMiddleware,
+	allow_origins=["https://gannitto.github.io"],
+	allow_credentials=True,
+	allow_methods=["*"],
+	allow_headers=["*"]
+)
 try:
-	session = ort.InferenceSession("model.onnx")
-
-	app = FastAPI()
-
-	# Настройка CORS
-	app.add_middleware(
-		CORSMiddleware,
-		allow_origins=["https://gannitto.github.io"],
-		allow_credentials=True,
-		allow_methods=["*"],
-		allow_headers=["*"]
-	)
-
+	
 	# Класс для входных данных API
 	class TextRequest(BaseModel):
 		text: str
@@ -40,13 +39,13 @@ try:
 	def prepare_input(text: str):
 		# Токенизация текста
 		tokens = tokenizer.encode(text)
-    
+	
 		# Приведение к нужной длине (152)
 		tokens = tokens[:152] + [0] * (152 - len(tokens))  # Паддинг нулями
-    
+	
 		# Создание тензора с явным указанием float32
 		input_tensor = np.array([tokens], dtype=np.float32)  # Форма: [1, 152]
-    
+	
 		print(f"Подготовленный тензор - форма: {input_tensor.shape}, тип: {input_tensor.dtype}")
 		return {"input": input_tensor}
 
@@ -86,7 +85,7 @@ try:
 			# 	max_length=request.max_length
 			# )
 			outputs = session.run(None, inputs)
-        
+		
 
 			return {"generated_text": str(outputs[0].tolist())}
 	
