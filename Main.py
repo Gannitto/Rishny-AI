@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 logger = logging.getLogger(__name__)
 logger.info("Запуск..")
+
 try:
 	session = ort.InferenceSession("model.onnx")
 
@@ -16,11 +17,9 @@ try:
 	# Настройка CORS
 	app.add_middleware(
 		CORSMiddleware,
-		allow_origins=["https://gannitto.github.io"],  # Только ваш фронтенд
-	    allow_methods=["POST", "OPTIONS"],  # Разрешенные методы
-		allow_headers=["Content-Type"],  # Разрешенные заголовки
-	    expose_headers=["*"],  # Дополнительные заголовки для клиента
-		max_age=600  # Время кеширования настроек CORS (в секундах)
+		allow_origins=["https://gannitto.github.io"],
+		allow_methods=["POST", "OPTIONS"],
+		allow_headers=["Content-Type"]
 	)
 
 	# Класс для входных данных API
