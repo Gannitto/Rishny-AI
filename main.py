@@ -3,13 +3,25 @@ import numpy as np
 import onnxruntime as ort
 from pydantic import BaseModel
 import logging
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 logger = logging.getLogger(__name__)
 logger.info("Запуск..")
+
 try:
-	# Загружаем ONNX-модель и токенизатор (если есть)
-	session = ort.InferenceSession("model.onnx")  # Путь к ONNX-файлу
+	session = ort.InferenceSession("model.onnx")
+
+	app = FastAPI()
+
+	# Настройка CORS
+	app.add_middleware(
+		CORSMiddleware,
+		allow_origins=["https://gannitto.github.io"],
+		allow_credentials=True,
+		allow_methods=["*"],
+		allow_headers=["*"]
+	)
 
 	# Класс для входных данных API
 	class TextRequest(BaseModel):
@@ -19,8 +31,8 @@ try:
 	@app.post("/generate")
 	async def generate_text(request: TextRequest):
 		try:
-			# 1. Токенизация входного текста (адаптируйте под вашу модель!)
-			input_ids = tokenize_text(request.text)  # Ваша функция предобработки
+			input_ids = tokenize_text(request.text)
+			input_ids = input_ids.astype(np.float32)
 		
 			# 2. Генерация текста
 			generated_text = generate(
