@@ -90,7 +90,7 @@ try:
 			return {"generated_text": str(outputs[0].tolist())}
 	
 		except Exception as e:
-			return {"error": str(e)}
+			return {"error": type(e).__name__ + "\n" + str(e)}
 		
 	if __name__ == "__main__":
 		import uvicorn
