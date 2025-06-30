@@ -1,3 +1,4 @@
+import pickle
 from fastapi import FastAPI
 import numpy as np
 import onnxruntime as ort
@@ -5,54 +6,48 @@ from pydantic import BaseModel
 import logging
 from fastapi.middleware.cors import CORSMiddleware
 
+# Загрузка токенизатора
+with open('tokenizer.pickle', 'rb') as handle:
+	tokenizer = pickle.load(handle)
+
 app = FastAPI()
 logger = logging.getLogger(__name__)
 logger.info("Запуск..")
+session = ort.InferenceSession("model.onnx")
 
+pp = FastAPI()
+
+# Настройка CORS
+app.add_middleware(
+	CORSMiddleware,
+	allow_origins=["https://gannitto.github.io"],
+	allow_credentials=True,
+	allow_methods=["*"],
+	allow_headers=["*"]
+)
 try:
-	session = ort.InferenceSession("model.onnx")
-
-	app = FastAPI()
-
-	# Настройка CORS
-	app.add_middleware(
-		CORSMiddleware,
-		allow_origins=["https://gannitto.github.io"],
-		allow_credentials=True,
-		allow_methods=["*"],
-		allow_headers=["*"]
-	)
-
+	
 	# Класс для входных данных API
 	class TextRequest(BaseModel):
 		text: str
 		max_length: int = 50  # Максимальная длина генерируемого текста
 
-	@app.post("/generate")
-	async def generate_text(request: TextRequest):
-		try:
-			input_ids = tokenize_text(request.text)
-			input_ids = input_ids.astype(np.float32)
-		
-			# 2. Генерация текста
-			generated_text = generate(
-				session,
-				input_ids,
-				max_length=request.max_length
-			)
-		
-			return {"generated_text": generated_text}
-	
-		except Exception as e:
-			return {"error": str(e)}
-
-	# --- Вспомогательные функции ---
-
 	def tokenize_text(text: str) -> np.ndarray:
 		"""Преобразует текст в вектор (пример для моделей типа LSTM/Transformer)."""
-		# Пример: если модель ожидает вход shape=(1, seq_len)
-		# Замените на ваш токенизатор!
 		return np.array([[1, 2, 3]], dtype=np.int64)  # Заглушка
+
+	def prepare_input(text: str):
+		# Токенизация текста
+		tokens = tokenizer.encode(text)
+	
+		# Приведение к нужной длине (152)
+		tokens = tokens[:152] + [0] * (152 - len(tokens))  # Паддинг нулями
+	
+		# Создание тензора с явным указанием float32
+		input_tensor = np.array([tokens], dtype=np.float32)  # Форма: [1, 152]
+	
+		print(f"Подготовленный тензор - форма: {input_tensor.shape}, тип: {input_tensor.dtype}")
+		return {"input": input_tensor}
 
 	def generate(session: ort.InferenceSession, input_ids: np.ndarray, max_length: int) -> str:
 		"""Генерирует текст с помощью ONNX-модели."""
@@ -78,7 +73,25 @@ try:
 	
 		# Детокенизация (замените на вашу логику!)
 		return " ".join(map(str, generated))  # Заглушка
+	
+	@app.post("/generate")
+	async def generate_text(request: TextRequest):
+		try:
+			inputs = prepare_input(request.text)
+		
+			# generated_text = generate(
+			# 	session,
+			# 	input_ids,
+			# 	max_length=request.max_length
+			# )
+			outputs = session.run(None, inputs)
+		
 
+			return {"generated_text": str(outputs[0].tolist())}
+	
+		except Exception as e:
+			return {"error": type(e).__name__ + "\n" + str(e)}
+		
 	if __name__ == "__main__":
 		import uvicorn
 
