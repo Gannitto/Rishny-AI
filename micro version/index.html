@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Генерация текста с TensorFlow.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+</head>
+<body>
+    <h1>Генерация текста</h1>
+    <button id="generate">Сгенерировать текст</button>
+    <div id="output"></div>
+
+    <script>
+        let model;
+        const wordIndex = {}; // Здесь должен быть ваш word_index из токенизатора
+        const indexWord = {}; // Обратный словарь
+        const maxSequenceLen = 10; // Должно соответствовать обученной модели
+
+        // Инициализация словарей (в реальном проекте нужно сохранить word_index из Python)
+        function initWordIndex() {
+            // Пример (должен соответствовать обученному токенизатору)
+            wordIndex['на'] = 1;
+            wordIndex['звезды'] = 2;
+            wordIndex['люди'] = 3;
+            // ... и так для всех слов
+
+            // Создаем обратный словарь
+            for (const [word, index] of Object.entries(wordIndex)) {
+                indexWord[index] = word;
+            }
+        }
+
+        // Загрузка модели
+        async function loadModel() {
+            model = await tf.loadLayersModel('text_model/model.json');
+            console.log('Модель загружена');
+        }
+
+        // Генерация текста
+        function generateText(seedText, nextWords = 20) {
+            let output = seedText;
+
+            for (let i = 0; i < nextWords; i++) {
+                // Токенизация seed текста
+                const tokenList = tokenizer.textsToSequences([seedText])[0];
+                // Паддинг
+                const padded = tf.pad(
+                    tf.tensor1d(tokenList),
+                    [[maxSequenceLen - 1 - tokenList.length, 0]]
+                );
+                // Предсказание
+                const predictions = model.predict(padded.reshape([1, maxSequenceLen - 1]));
+                const predictedId = tf.argMax(predictions, -1).dataSync()[0];
+
+                // Добавляем новое слово
+                const outputWord = indexWord[predictedId];
+                seedText += " " + outputWord;
+                output += " " + outputWord;
+
+                // Если достигли конца предложения
+                if (outputWord === undefined || outputWord === '\n') {
+                    break;
+                }
+            }
+
+            return output;
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', async () => {
+            initWordIndex();
+            await loadModel();
+
+            document.getElementById('generate').addEventListener('click', () => {
+                const seedText = "люди";
+                const generated = generateText(seedText, 10);
+                document.getElementById('output').innerText = generated;
+            });
+        });
+    </script>
+</body>
+</html>
