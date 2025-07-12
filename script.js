@@ -40,7 +40,7 @@ async function generateText() {
 
 	let output = inputText;
 	const num_tokens = document.getElementById("nextWords").value;
-
+	 
 
 	const tokenizer = {
 		wordIndex: {},
