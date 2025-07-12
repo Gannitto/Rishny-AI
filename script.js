@@ -28,79 +28,53 @@ async function loadModel() {
 	const model = await tf.loadLayersModel('tfjs_model/model.json');
 	console.log("Model loaded!");
 }
-
-// Генерация текста
 async function generateText() {
-
 	const inputText = document.getElementById('inputText').value;
-	//if (!model) {
-	//	alert("Модель ещё загружается... Подождите немного.");
-	//	return;
-	//}
+	if (!model) {
+		alert("Модель ещё загружается... Подождите немного.");
+		return;
+	}
 
 	let output = inputText;
-	const num_tokens = document.getElementById("nextWords").value;
-	
-
-	const tokenizer = {
-		wordIndex: {},
-		indexWord: {},
-		wordCounts: {},
-		numWords: 0,
-		textsToSequences: function (texts) {
-			return texts.map(text =>
-				text.toLowerCase().split(' ')
-					.map(word => this.wordIndex[word])
-					.filter(idx => idx !== undefined)
-			);
-		}
+	for (let i = 0; i < 50; i++) {  // Генерируем 50 слов
+		const tokenized = tokenizeText(output);
+		const padded = padSequence(tokenized, maxLen);
+		const prediction = model.predict(padded);
+		const nextWord = getWordFromPrediction(prediction);
+		output += " " + nextWord;
 	}
 
-	let sequenceLength = 5;
-	let result = inputText;
-	let currentSeq = inputText.toLowerCase().split(/\s+/).filter(word => word.length > 0);
+	document.getElementById('output').innerText = output;
 
-	if (currentSeq.length > sequenceLength) {
-		currentSeq = currentSeq.slice(-sequenceLength);
-	}
-
-	for (let i = 0; i < num_tokens; i++) {
-		//const tokenized = tokenizeText(output);
-		//const padded = padSequence(tokenized, maxLen);
-		//const prediction = model.predict(padded);
-		//const nextWord = getWordFromPrediction(prediction);
-		//output += " " + nextWord;
-		const inputSeq = currentSeq.map(word => tokenizer.wordIndex[word] || 0);
-
-		while (inputSeq.length < sequenceLength) {
-			inputSeq.unshift(0);
-		}
-
-		const inputTensor = tf.tensor2d([inputSeq], [1, sequenceLength], 'float32');
-		const output = model.predict(inputTensor);
-		const nextIndex = tf.argMax(output, -1).dataSync()[0];
-		inputTensor.dispose();
-		output.dispose();
-
-		const nextWord = tokenizer.indexWord[nextIndex];
-		if (!nextWord) break;
-
-		result += ' ' + nextWord;
-		currentSeq.push(nextWord);
-		if (currentSeq.length > sequenceLength) {
-			currentSeq.shift();
-		}
-	}
 
 	if (checkbox.checked) {
 		output = output.replace("говном", "< УДАЛЕНО >")
 		output = output.replace("Говно", "< УДАЛЕНО >")
 		output = output.replace("говно", "< УДАЛЕНО >")
+		output = output.replace("говнецо", "< УДАЛЕНО >")
+		output = output.replace("говне", "< УДАЛЕНО >")
+		output = output.replace("говна", "< УДАЛЕНО >")
+		output = output.replace("говном", "< УДАЛЕНО >")
+		output = output.replace("хитрожопая", "< УДАЛЕНО >")
+		output = output.replace("жопа", "< УДАЛЕНО >")
+		output = output.replace("хитрожопых", "< УДАЛЕНО >")
+		output = output.replace("хитрожопые", "< УДАЛЕНО >")
+		output = output.replace("поджопывать", "< УДАЛЕНО >")
+		output = output.replace("жопы", "< УДАЛЕНО >")
+		output = output.replace("жопе", "< УДАЛЕНО >")
+		output = output.replace("жопы", "< УДАЛЕНО >")
+		output = output.replace("посрать", "< УДАЛЕНО >")
+		output = output.replace("высрать", "< УДАЛЕНО >")
+		output = output.replace("срать", "< УДАЛЕНО >")
+		output = output.replace("насрал", "< УДАЛЕНО >")
+		output = output.replace("обосрал", "< УДАЛЕНО >")
+		output = output.replace("сраки", "< УДАЛЕНО >")
+		output = output.replace("дрочит", "< УДАЛЕНО >")
 	}
 	document.getElementById('output').innerText = output;
 }
 
-// Токенизация
+// Токенизация (упрощённая версия)
 function tokenizeText(text) {
 	return text.toLowerCase().split(' ');
 }
