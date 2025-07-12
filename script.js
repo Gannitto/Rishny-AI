@@ -47,7 +47,7 @@ async function loadModel() {
 	console.log('Модель загружена:', model);
 	console.log('Токенизатор загружен:', loadedTokenizer);
 }
-function generateText(tokenizer, seedText, length = 20) {
+async function generateText(tokenizer, seedText, length = 20) {
 	const model = await tf.loadLayersModel('tfjs_model/model.json');
 	let result = seedText;
 	let currentSeq = seedText.toLowerCase().split(/\s+/).filter(word => word.length > 0);
