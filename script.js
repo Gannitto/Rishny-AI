@@ -27,8 +27,6 @@ const maxLen = 152; // Должно совпадать с max_sequence_len из обучения
 async function loadModel() {
 	const model = await tf.loadLayersModel('tfjs_model/model.json');
 	console.log("Модель загружена!");
-	document.getElementById("next button").style.display = "block";
-	document.getElementById("loading text").style.text = "Модель загружена"
 }
 
 // Генерация текста
@@ -83,4 +81,3 @@ function tokenizeText(text) {
 
 // Загрузка модели при старте
 loadModel();
-document.getElementById('generateBtn').addEventListener('click', generateText);
