@@ -25,7 +25,7 @@ const maxLen = 152; // Должно совпадать с max_sequence_len из обучения
 
 // Загрузка модели
 async function loadModel() {
-	const model = await tf.loadLayersModel('tfjs_model/model.json');
+	const model = await tf.loadLayersModel('tfjs_model/model. json');
 	console.log("Model loaded!");
 }
 async function generateText() {
