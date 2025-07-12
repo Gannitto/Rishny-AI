@@ -81,3 +81,4 @@ function tokenizeText(text) {
 
 // Загрузка модели при старте
 loadModel();
+document.getElementById('generateBtn').addEventListener('click', generateText);
