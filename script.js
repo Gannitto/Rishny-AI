@@ -34,7 +34,7 @@ async function generateText() {
 		alert("Модель ещё загружается... Подождите немного.");
 		return;
 	}
-
+	 
 	let output = inputText;
 	for (let i = 0; i < 50; i++) {  // Генерируем 50 слов
 		const tokenized = tokenizeText(output);
