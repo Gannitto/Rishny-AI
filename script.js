@@ -76,7 +76,7 @@ async function generateText() {
 	document.getElementById('output').innerText = output;
 }
 
-// Токенизация (упрощённая версия)
+// Токенизация
 function tokenizeText(text) {
 	return text.toLowerCase().split(' ');
 }
