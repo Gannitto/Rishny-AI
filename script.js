@@ -57,7 +57,7 @@ async function generateText() {
 		//const nextWord = getWordFromPrediction(prediction);
 		//output += " " + nextWord;
 
-		 
+		
 
 		const inputSeq = currentSeq.map(word => tokenizer.wordIndex[word] || 0);
 
