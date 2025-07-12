@@ -70,9 +70,6 @@ async function generateText() {
 		//const prediction = model.predict(padded);
 		//const nextWord = getWordFromPrediction(prediction);
 		//output += " " + nextWord;
-
-
-
 		const inputSeq = currentSeq.map(word => tokenizer.wordIndex[word] || 0);
 
 		while (inputSeq.length < sequenceLength) {
