@@ -71,7 +71,7 @@ async function generateText() {
 		output = output.replace("îáîñğàë", "< ÓÄÀËÅÍÎ >")
 		output = output.replace("ñğàêè", "< ÓÄÀËÅÍÎ >")
 		output = output.replace("äğî÷èò", "< ÓÄÀËÅÍÎ >")
-	}
+	} 
 	document.getElementById('output').innerText = output;
 }
 
