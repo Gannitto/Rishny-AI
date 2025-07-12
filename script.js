@@ -39,7 +39,7 @@ async function generateText() {
 	//}
 
 	let output = inputText;
-	const num_tokens = document.getElementById("num tokens");
+	const num_tokens = document.getElementById("nextWords").value;
 	for (let i = 0; i < num_tokens; i++) {
 		const tokenized = tokenizeText(output);
 		const padded = padSequence(tokenized, maxLen);
