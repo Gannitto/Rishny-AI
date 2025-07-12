@@ -27,7 +27,6 @@ const maxLen = 152; // Должно совпадать с max_sequence_len из обучения
 async function loadModel() {
 	const model = await tf.loadLayersModel('tfjs_model/model.json');
 	const tokenizerFile = await fetch('./tfjs_model/tokenizer.json')
-	console.log(tokenizerFile)
 	const tokenizerText = await tokenizerFile.text();
 	const tokenizerData = JSON.parse(tokenizerText);
 
@@ -44,13 +43,39 @@ async function loadModel() {
 		}
 	};
 	console.log("Model loaded!");
+	console.log('Модель загружена:', loadedModel);
+	console.log('Токенизатор загружен:', loadedTokenizer);
 }
-async function generateText() {
-	const inputText = document.getElementById('inputText').value;
-	
+function generateText(model, tokenizer, seedText, length = 20) {
+	let output = seedText;
+	let currentSeq = seedText.toLowerCase().split(/\s+/).filter(word => word.length > 0);
 
-	document.getElementById('output').innerText = output;
+	if (currentSeq.length > sequenceLength) {
+		currentSeq = currentSeq.slice(-sequenceLength);
+	}
 
+	for (let i = 0; i < length; i++) {
+		const inputSeq = currentSeq.map(word => tokenizer.wordIndex[word] || 0);
+
+		while (inputSeq.length < sequenceLength) {
+			inputSeq.unshift(0);
+		}
+
+		const inputTensor = tf.tensor2d([inputSeq], [1, sequenceLength], 'float32');
+		const output = model.predict(inputTensor);
+		const nextIndex = tf.argMax(output, -1).dataSync()[0];
+		inputTensor.dispose();
+		output.dispose();
+
+		const nextWord = tokenizer.indexWord[nextIndex];
+		if (!nextWord) break;
+
+		output += ' ' + nextWord;
+		currentSeq.push(nextWord);
+		if (currentSeq.length > sequenceLength) {
+			currentSeq.shift();
+		}
+	}
 
 	if (checkbox.checked) {
 		output = output.replace("говном", "< УДАЛЕНО >")
@@ -77,12 +102,19 @@ async function generateText() {
 		output = output.replace("дрочит", "< УДАЛЕНО >")
 	}
 	document.getElementById('output').innerText = output;
+
+	return output;
 }
 
-// Токенизация (упрощённая версия)
-function tokenizeText(text) {
-	return text.toLowerCase().split(' ');
-}
 // Загрузка модели при старте
 loadModel();
-document.getElementById('generateBtn').addEventListener('click', generateText);
+document.getElementById('generateBtn').addEventListener('click', () => {
+	try {
+		//const firstLine = trainingText.value.split('\n')[0];
+		const text = generateText(model, loadedTokenizer, document.getElementById('inputText').value, 20);
+		//newOutput.innerHTML = text;
+	} catch (error) {
+		console.error('Ошибка генерации:', error);
+		document.getElementById('output').innerHTML = 'Ошибка генерации: ' + error.message;
+	}
+});
