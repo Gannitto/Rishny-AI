@@ -32,12 +32,11 @@ async function loadModel() {
 // Генерация текста
 async function generateText() {
 
-	loadModel()
 	const inputText = document.getElementById('inputText').value;
-	if (!model) {
-		alert("Модель ещё загружается... Подождите немного.");
-		return;
-	}
+	//if (!model) {
+	//	alert("Модель ещё загружается... Подождите немного.");
+	//	return;
+	//}
 
 	let output = inputText;
 	const num_tokens = document.getElementById("num tokens");
