@@ -43,7 +43,7 @@ async function loadModel() {
 		}
 	};
 	console.log("Model loaded!");
-	console.log('Модель загружена:', loadedModel);
+	console.log('Модель загружена:', model);
 	console.log('Токенизатор загружен:', loadedTokenizer);
 }
 function generateText(model, tokenizer, seedText, length = 20) {
