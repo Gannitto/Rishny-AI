@@ -42,6 +42,20 @@ async function generateText() {
 	const num_tokens = document.getElementById("nextWords").value;
 
 
+	const tokenizer = {
+		wordIndex: {},
+		indexWord: {},
+		wordCounts: {},
+		numWords: 0,
+		textsToSequences: function (texts) {
+			return texts.map(text =>
+				text.toLowerCase().split(' ')
+					.map(word => this.wordIndex[word])
+					.filter(idx => idx !== undefined)
+			);
+		}
+	}
+
 	let sequenceLength = 5;
 	let result = inputText;
 	let currentSeq = inputText.toLowerCase().split(/\s+/).filter(word => word.length > 0);
