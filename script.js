@@ -40,12 +40,45 @@ async function generateText() {
 
 	let output = inputText;
 	const num_tokens = document.getElementById("nextWords").value;
+
+
+	let sequenceLength = 5;
+	let result = inputText;
+	let currentSeq = inputText.toLowerCase().split(/\s+/).filter(word => word.length > 0);
+
+	if (currentSeq.length > sequenceLength) {
+		currentSeq = currentSeq.slice(-sequenceLength);
+	}
+
 	for (let i = 0; i < num_tokens; i++) {
-		const tokenized = tokenizeText(output);
-		const padded = padSequence(tokenized, maxLen);
-		const prediction = model.predict(padded);
-		const nextWord = getWordFromPrediction(prediction);
-		output += " " + nextWord;
+		//const tokenized = tokenizeText(output);
+		//const padded = padSequence(tokenized, maxLen);
+		//const prediction = model.predict(padded);
+		//const nextWord = getWordFromPrediction(prediction);
+		//output += " " + nextWord;
+
+
+
+		const inputSeq = currentSeq.map(word => tokenizer.wordIndex[word] || 0);
+
+		while (inputSeq.length < sequenceLength) {
+			inputSeq.unshift(0);
+		}
+
+		const inputTensor = tf.tensor2d([inputSeq], [1, sequenceLength], 'float32');
+		const output = model.predict(inputTensor);
+		const nextIndex = tf.argMax(output, -1).dataSync()[0];
+		inputTensor.dispose();
+		output.dispose();
+
+		const nextWord = tokenizer.indexWord[nextIndex];
+		if (!nextWord) break;
+
+		result += ' ' + nextWord;
+		currentSeq.push(nextWord);
+		if (currentSeq.length > sequenceLength) {
+			currentSeq.shift();
+		}
 	}
 
 	if (checkbox.checked) {
