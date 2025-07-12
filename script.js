@@ -112,6 +112,7 @@ loadModel();
 document.getElementById('generateBtn').addEventListener('click', () => {
 	try {
 		//const firstLine = trainingText.value.split('\n')[0];
+		console.log(model, loadedTokenizer, document.getElementById('inputText').value)
 		const text = generateText(loadedTokenizer, document.getElementById('inputText').value, 20);
 		//newOutput.innerHTML = text;
 	} catch (error) {
