@@ -48,7 +48,7 @@ async function loadModel() {
 	console.log('Òîêåíèçàòîğ çàãğóæåí:', loadedTokenizer);
 }
 function generateText(model, tokenizer, seedText, length = 20) {
-	let output = seedText;
+	let result = seedText;
 	let currentSeq = seedText.toLowerCase().split(/\s+/).filter(word => word.length > 0);
 
 	if (currentSeq.length > sequenceLength) {
@@ -71,7 +71,7 @@ function generateText(model, tokenizer, seedText, length = 20) {
 		const nextWord = tokenizer.indexWord[nextIndex];
 		if (!nextWord) break;
 
-		output += ' ' + nextWord;
+		result += ' ' + nextWord;
 		currentSeq.push(nextWord);
 		if (currentSeq.length > sequenceLength) {
 			currentSeq.shift();
@@ -79,30 +79,30 @@ function generateText(model, tokenizer, seedText, length = 20) {
 	}
 
 	if (checkbox.checked) {
-		output = output.replace("ãîâíîì", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("Ãîâíî", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ãîâíî", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ãîâíåöî", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ãîâíå", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ãîâíà", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ãîâíîì", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("õèòğîæîïàÿ", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("æîïà", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("õèòğîæîïûõ", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("õèòğîæîïûå", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ïîäæîïûâàòü", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("æîïû", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("æîïå", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("æîïû", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ïîñğàòü", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("âûñğàòü", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ñğàòü", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("íàñğàë", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("îáîñğàë", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ñğàêè", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("äğî÷èò", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("ãîâíîì", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("Ãîâíî", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("ãîâíî", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("ãîâíåöî", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("ãîâíå", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("ãîâíà", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("ãîâíîì", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("õèòğîæîïàÿ", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("æîïà", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("õèòğîæîïûõ", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("õèòğîæîïûå", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("ïîäæîïûâàòü", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("æîïû", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("æîïå", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("æîïû", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("ïîñğàòü", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("âûñğàòü", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("ñğàòü", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("íàñğàë", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("îáîñğàë", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("ñğàêè", "< ÓÄÀËÅÍÎ >")
+		result = result.replace("äğî÷èò", "< ÓÄÀËÅÍÎ >")
 	}
-	document.getElementById('output').innerText = output;
+	document.getElementById('output').innerText = result;
 
 	return output;
 }
