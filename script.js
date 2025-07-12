@@ -47,7 +47,7 @@ async function loadModel() {
 	console.log('Модель загружена:', model);
 	console.log('Токенизатор загружен:', loadedTokenizer);
 }
-function generateText(model, tokenizer, seedText, length = 20) {
+function generateText(tokenizer, seedText, length = 20) {
 	let result = seedText;
 	let currentSeq = seedText.toLowerCase().split(/\s+/).filter(word => word.length > 0);
 
@@ -112,7 +112,7 @@ loadModel();
 document.getElementById('generateBtn').addEventListener('click', () => {
 	try {
 		//const firstLine = trainingText.value.split('\n')[0];
-		const text = generateText(model, loadedTokenizer, document.getElementById('inputText').value, 20);
+		const text = generateText(loadedTokenizer, document.getElementById('inputText').value, 20);
 		//newOutput.innerHTML = text;
 	} catch (error) {
 		console.error('Ошибка генерации:', error);
