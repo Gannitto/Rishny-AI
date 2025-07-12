@@ -58,18 +58,6 @@ async function generateText() {
 		output = output.replace("õèòğîæîïàÿ", "< ÓÄÀËÅÍÎ >")
 		output = output.replace("æîïà", "< ÓÄÀËÅÍÎ >")
 		output = output.replace("õèòğîæîïûõ", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("õèòğîæîïûå", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ïîäæîïûâàòü", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("æîïû", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("æîïå", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("æîïû", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ïîñğàòü", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("âûñğàòü", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ñğàòü", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("íàñğàë", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("îáîñğàë", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("ñğàêè", "< ÓÄÀËÅÍÎ >")
-		output = output.replace("äğî÷èò", "< ÓÄÀËÅÍÎ >")
 	}
 	document.getElementById('output').innerText = output;
 }
