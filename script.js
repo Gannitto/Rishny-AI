@@ -107,7 +107,7 @@ async function generateText() {
 	}
 	document.getElementById('output').innerText = output;
 }
- 
+
 // Токенизация
 function tokenizeText(text) {
 	return text.toLowerCase().split(' ');
