@@ -1,6 +1,7 @@
 const checkbox = document.getElementById('detei mode');
 const imageContainer = document.getElementById('image-container');
 const fullscreenImage = document.getElementById('fullscreen-image');
+let sequenceLength = 5;
 imageContainer.style.display = 'none';
 
 checkbox.addEventListener('change', function () {
