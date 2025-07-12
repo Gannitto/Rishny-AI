@@ -25,24 +25,29 @@ const maxLen = 152; // Должно совпадать с max_sequence_len из обучения
 
 // Загрузка модели
 async function loadModel() {
-	const model = await tf.loadLayersModel('tfjs_model/model.json');
+	//const model = await tf.loadLayersModel('tfjs_model/model.json');
+	const tokenizerFile = await fetch('./tfjs_model/tokenizer.json')
+	console.log(tokenizerFile)
+	const tokenizerText = await tokenizerFile.text();
+	const tokenizerData = JSON.parse(tokenizerText);
+
+	loadedTokenizer = {
+		wordIndex: tokenizerData.wordIndex,
+		indexWord: tokenizerData.indexWord,
+		numWords: tokenizerData.numWords,
+		textsToSequences: function (texts) {
+			return texts.map(text =>
+				text.toLowerCase().split(' ')
+					.map(word => this.wordIndex[word])
+					.filter(idx => idx !== undefined)
+			);
+		}
+	};
 	console.log("Model loaded!");
 }
 async function generateText() {
 	const inputText = document.getElementById('inputText').value;
-	if (!model) {
-		alert("Модель ещё загружается... Подождите немного.");
-		return;
-	}
-
-	let output = inputText;
-	for (let i = 0; i < 50; i++) {  // Генерируем 50 слов
-		const tokenized = tokenizeText(output);
-		const padded = padSequence(tokenized, maxLen);
-		const prediction = model.predict(padded);
-		const nextWord = getWordFromPrediction(prediction);
-		output += " " + nextWord;
-	}
+	
 
 	document.getElementById('output').innerText = output;
 
@@ -78,7 +83,6 @@ async function generateText() {
 function tokenizeText(text) {
 	return text.toLowerCase().split(' ');
 }
-
 // Загрузка модели при старте
 loadModel();
 document.getElementById('generateBtn').addEventListener('click', generateText);
