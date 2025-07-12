@@ -20,21 +20,6 @@ checkbox.addEventListener('change', function () {
 	}
 });
 
-//async function sendRequest() {
-//	const data = { text: document.getElementById("inputText").value, next_words: document.getElementById("nextWords").value };
-
-//	const response = await fetch("https://rishny-ai.onrender.com/generate", {
-//		method: "POST",
-//		headers: { "Content-Type": "application/json" },
-//		body: JSON.stringify(data)
-//	});
-
-//	const result = await response.json();
-//	document.getElementById('output').innerText = result["result"]
-//	console.log(result);
-//}
-
-
 let model;
 const maxLen = 152; // Должно совпадать с max_sequence_len из обучения
 
@@ -99,11 +84,3 @@ function tokenizeText(text) {
 // Загрузка модели при старте
 loadModel();
 document.getElementById('generateBtn').addEventListener('click', generateText);
-
-document.getElementById("Start page").style.display = "none";
-// document.getElementById("next button").style.display = "none";
-
-async function Show_AI_menu() {
-	document.getElementById("AI menu").style.display = "block";
-	document.getElementById("Start page").style.display = "none";
-}

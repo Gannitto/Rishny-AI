@@ -7,7 +7,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow import TensorSpec, float32
 from re import sub
 
-new_model = False   # Создавать ли новую модель
+new_model = True   # Создавать ли новую модель
 
 def load_rishny_ai():
 	model = load_model("rishny_model.h5")  # Загружаем модель
