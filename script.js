@@ -113,7 +113,7 @@ loadModel();
 document.getElementById('generateBtn').addEventListener('click', () => {
 	try {
 		console.log(loadedTokenizer, document.getElementById('inputText').value)
-		const text = generateText(model, loadedTokenizer, document.getElementById('inputText').value, 20);
+		const text = generateText(loadedTokenizer, document.getElementById('inputText').value, 20);
 		//newOutput.innerHTML = text;
 	} catch (error) {
 		console.error('Ошибка генерации:', error);
