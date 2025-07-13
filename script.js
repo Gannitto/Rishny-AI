@@ -47,7 +47,7 @@ async function loadModel() {
 	console.log('Модель загружена:', model);
 	console.log('Токенизатор загружен:', loadedTokenizer);
 }
-async function generateText(tokenizer, seedText, length = 20) {
+async function generateText(tokenizer, seedText, length = 30) {
 	const model = await tf.loadLayersModel('tfjs_model/model.json');
 	let result = seedText;
 	let currentSeq = seedText.toLowerCase().split(/\s+/).filter(word => word.length > 0);
@@ -112,8 +112,7 @@ async function generateText(tokenizer, seedText, length = 20) {
 loadModel();
 document.getElementById('generateBtn').addEventListener('click', () => {
 	try {
-		console.log(loadedTokenizer, document.getElementById('inputText').value)
-		const text = generateText(loadedTokenizer, document.getElementById('inputText').value, 20);
+		const text = generateText(loadedTokenizer, document.getElementById('inputText').value, document.getElementById('nextWords').value);
 		//newOutput.innerHTML = text;
 	} catch (error) {
 		console.error('Ошибка генерации:', error);
